@@ -38,7 +38,7 @@ public class googleTest {
         Thread.sleep(2000);
         Actions actionsAntes = new Actions(driver);
         searchBox.submit();
-        Actions actions = new Actions(driver);
+        //Actions actions = new Actions(driver);
     }
 
     @Test
