@@ -5,8 +5,7 @@ import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -19,7 +18,7 @@ public class googleTest {
     private WebDriver driver;
 
     @BeforeMethod
-    public void setUp(){
+    public void setUp() {
         WebDriverManager.chromedriver().setup();
 
         ChromeOptions options = new ChromeOptions();
@@ -31,14 +30,14 @@ public class googleTest {
     public void searchSelenium() throws InterruptedException, IOException {
         driver.get("https://www.google.com");
         WebElement searchBox = driver.findElement(By.name("q"));
-        Actions actionsAnte = new Actions(driver);
+        // Actions actionsAnte = new Actions(driver);
         searchBox.sendKeys("Documentación de selenium");
         File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         FileUtils.copyFile(screenshot, new File("capturas/capturaGoogle.png"));
         Thread.sleep(2000);
-        Actions actionsAntes = new Actions(driver);
+        // Actions actionsAntes = new Actions(driver);
         searchBox.submit();
-        //Actions actions = new Actions(driver);
+        // Actions actions = new Actions(driver);
     }
 
     @Test
@@ -139,7 +138,7 @@ public class googleTest {
     }
 
     @AfterMethod
-    public void tearDown(){
+    public void tearDown() {
         if (driver != null) {
             driver.quit();
         }
