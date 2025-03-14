@@ -5,10 +5,16 @@ import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import com.google.common.io.Files;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Image;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,9 +26,7 @@ public class googleTest {
     @BeforeMethod
     public void setUp() {
         WebDriverManager.chromedriver().setup();
-
         ChromeOptions options = new ChromeOptions();
-
         driver = new ChromeDriver(options);
     }
 
@@ -32,12 +36,18 @@ public class googleTest {
         WebElement searchBox = driver.findElement(By.name("q"));
         // Actions actionsAnte = new Actions(driver);
         searchBox.sendKeys("Documentación de selenium");
-        File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        FileUtils.copyFile(screenshot, new File("capturas/capturaGoogle.png"));
-        Thread.sleep(2000);
-        // Actions actionsAntes = new Actions(driver);
-        searchBox.submit();
-        // Actions actions = new Actions(driver);
+
+        File screen = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        File destFile = new File("screenshot1.png");
+        Files.copy(screen, destFile);
+
+        try (PdfWriter writer = new PdfWriter("capturas/output.pdf");
+                PdfDocument pdf = new PdfDocument(writer);
+                Document document = new Document(pdf)) {
+            Image img = new Image(ImageDataFactory.create(destFile.getAbsolutePath()));
+            document.add(img);
+            document.close();
+        }
     }
 
     @Test
