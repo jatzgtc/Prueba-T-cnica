@@ -15,6 +15,7 @@ import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Image;
+import com.itextpdf.layout.element.Paragraph;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,21 +33,33 @@ public class googleTest {
 
     @Test
     public void searchSelenium() throws InterruptedException, IOException {
-        driver.get("https://www.google.com");
-        WebElement searchBox = driver.findElement(By.name("q"));
-        // Actions actionsAnte = new Actions(driver);
-        searchBox.sendKeys("Documentación de selenium");
-
-        File screen = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        File destFile = new File("screenshot1.png");
-        Files.copy(screen, destFile);
-
-        try (PdfWriter writer = new PdfWriter("capturas/output.pdf");
+        try (PdfWriter writer = new PdfWriter("capturas/google.pdf"); // Para crear el pdf
                 PdfDocument pdf = new PdfDocument(writer);
                 Document document = new Document(pdf)) {
-            Image img = new Image(ImageDataFactory.create(destFile.getAbsolutePath()));
-            document.add(img);
-            document.close();
+            document.add(new Paragraph("Texto de prueba").setFontSize(18).simulateBold());
+            driver.get("https://www.google.com");
+            WebElement searchBox = driver.findElement(By.name("q"));
+            // Actions actionsAnte = new Actions(driver);
+            searchBox.sendKeys("Documentación de selenium");
+
+            Thread.sleep(1000);
+            File screen1 = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE); // Para tomar captura
+            File destFile1 = new File("capturas/screenshot1.png");
+            Files.copy(screen1, destFile1);
+
+            Image img1 = new Image(ImageDataFactory.create(destFile1.getAbsolutePath())); // Para insertar la imagen en
+                                                                                          // pdf
+            document.add(img1);
+            searchBox.submit();
+
+            Thread.sleep(1000);
+            File screen2 = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+            File destFile2 = new File("capturas/screenshot2.png");
+            Files.copy(screen2, destFile2);
+
+            Image imag2 = new Image(ImageDataFactory.create(destFile2.getAbsolutePath()));
+            document.add(imag2);
+            document.close(); // Para cerrar el pdf
         }
     }
 
