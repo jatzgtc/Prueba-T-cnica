@@ -39,6 +39,11 @@ public class googleTest {
                 PdfDocument pdf = new PdfDocument(writer);
                 Document document = new Document(pdf)) {
 
+            Paragraph title = new Paragraph("Un titulo");
+            title.setTextAlignment(TextAlignment.CENTER);
+            title.setMarginTop(20);
+            document.add(title);
+
             driver.get("https://www.google.com");
             WebElement searchBox = driver.findElement(By.name("q"));
             // Actions actionsAnte = new Actions(driver);
@@ -51,6 +56,7 @@ public class googleTest {
 
             Image img1 = new Image(ImageDataFactory.create(destFile1.getAbsolutePath())); // Para insertar la imagen en
                                                                                           // pdf
+            img1.setAutoScale(true); // Para ajustar la imagen en el documento
             document.add(img1);
             document.add(
                     new Paragraph("Descripcion").setTextAlignment(TextAlignment.LEFT));
