@@ -1,13 +1,11 @@
 package test;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import com.google.common.io.Files;
@@ -39,7 +37,7 @@ public class googleTest {
                 PdfDocument pdf = new PdfDocument(writer);
                 Document document = new Document(pdf)) {
 
-            Paragraph title = new Paragraph("Un titulo");
+            Paragraph title = new Paragraph("Titulo del documento de pruebas");
             title.setTextAlignment(TextAlignment.CENTER);
             title.setMarginTop(20);
             document.add(title);
@@ -59,7 +57,7 @@ public class googleTest {
             img1.setAutoScale(true); // Para ajustar la imagen en el documento
             document.add(img1);
             document.add(
-                    new Paragraph("Descripcion").setTextAlignment(TextAlignment.LEFT));
+                    new Paragraph("Descripcion de la primera captura").setTextAlignment(TextAlignment.LEFT));
 
             searchBox.submit();
 
@@ -70,6 +68,9 @@ public class googleTest {
 
             Image imag2 = new Image(ImageDataFactory.create(destFile2.getAbsolutePath()));
             document.add(imag2);
+            document.add(
+                    new Paragraph("Descripcion de la segunda captura").setTextAlignment(TextAlignment.LEFT));
+
             document.close(); // Para cerrar el pdf
         }
     }
