@@ -2,14 +2,16 @@ package test;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
@@ -62,9 +64,8 @@ public class providerTest {
 
     @BeforeMethod
     public void setUp() {
-        WebDriverManager.chromedriver().setup();
-        ChromeOptions options = new ChromeOptions();
-        driver = new ChromeDriver(options);
+        WebDriverManager.edgedriver().setup();
+        driver = new EdgeDriver();
     }
 
     @DataProvider(name = "excelData")
@@ -79,7 +80,8 @@ public class providerTest {
     public void testExcelData(String test) throws InterruptedException, IOException {
 
         driver.get("https://www.google.com");
-        WebElement searchBox = driver.findElement(By.name("q"));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement searchBox = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("q")));
         searchBox.sendKeys(test);
 
         Thread.sleep(2500);
