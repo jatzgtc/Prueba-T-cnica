@@ -36,7 +36,7 @@ public class providerTest {
 
     @BeforeSuite
     public void setUpSuite() throws IOException {
-        PdfWriter writer = new PdfWriter("capturas/documentoExcelTest.pdf");
+        PdfWriter writer = new PdfWriter("src/test/resources/capturas/documentoExcelTest.pdf");
         pdf = new PdfDocument(writer);
         document = new Document(pdf);
 
@@ -57,7 +57,7 @@ public class providerTest {
     public Object[][] excelDataProvider() throws IOException {
         ReadExcel excelReader = new ReadExcel();
         return excelReader.readExcelData(
-                "C:\\Users\\jatz\\Desktop\\Quality\\Automatizacion\\Tarea\\Prueba-Tenica\\provider\\Prueba.xlsx",
+                "C:\\Users\\jatz\\Desktop\\Quality\\Automatizacion\\Tarea\\Prueba-Tenica\\src\\test\\resources\\provider\\Prueba.xlsx",
                 "Hoja1");
     }
 
@@ -70,7 +70,7 @@ public class providerTest {
 
         Thread.sleep(1000);
         File screen1 = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        File desFile1 = new File("capturas/screenshot" + test + ".png");
+        File desFile1 = new File("src/test/resources/capturas/screenshot" + test + ".png");
         Files.copy(screen1, desFile1);
 
         Image img1 = new Image(ImageDataFactory.create(desFile1.getAbsolutePath()));
@@ -86,13 +86,13 @@ public class providerTest {
     @AfterMethod
     public void tearDown() {
         // Eliminar las captuaras en el proyecto
-        File folder = new File("capturas");
+        File folder = new File("src/test/resources/capturas");
         File[] files = folder.listFiles();
         if (files != null) {
             for (File file : files) {
                 if (file.isFile() && file.getName().startsWith("screenshot")) {
                     if (file.delete()) {
-                        System.out.println("El archivo: " + file.getName());
+                        System.out.println("Se elimino el archivo: " + file.getName());
                     } else {
                         System.out.println("No se pudo elimintar el archivo" + file.getName());
                     }
