@@ -47,9 +47,4 @@ public class ReadExcel {
             return data;
         }
     }
-
-    public Object[][] readDataExcel(String string, String string2) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'readDataExcel'");
-    }
 }
